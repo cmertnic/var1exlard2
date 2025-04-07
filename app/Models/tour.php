@@ -5,16 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Statue extends Model
+class Tour extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'title',
+        'path_img',
+        'date',
+        'price',
     ];
 
-    public function reports()
+    public function request()
     {
-        return $this->hasMany(Report::class, 'statues_id'); 
+        return $this->hasMany(Request2::class, 'tour_id'); 
     }
 }

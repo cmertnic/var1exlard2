@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class RegisteredUserController extends Controller
 {
@@ -32,28 +33,19 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:60'],
-            'midlename' => ['required', 'string', 'max:60'],
-            //'path_img' => 'image|mimes:png,jpg,jpeg,gif|max:800',
-            'lastname' => ['required', 'string', 'max:60'],
-            'login' => ['required', 'string', 'max:60', 'unique:'.User::class],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:60', 'unique:'.User::class],
+            'surname' => ['required', 'string', 'max:60'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:60', 'unique:'.User ::class],
             'password' => ['required', Rules\Password::defaults()],
-            'tel' => ['required', 'string', 'max:20','unique:'.User::class],
-            
+            'tel' => ['required', 'string', 'max:20','unique:'.User ::class],          
         ]);
-        //$imageName=Storage::disk('public')->put('/requets',$request->file('path_img'));
-        //$imageName=time() . '.' . $request['path_img']->extension();
-        // $request['path_img']->move(public_path('storage'),$imageName);
 
         $user = User::create([
             'name' => $request->name,
-            'midlename' => $request->midlename,
-            //'path_img'=>$imageName,  
-            'lastname' => $request->lastname,
-            'login' => $request->login,
+            'surname' => $request->surname, 
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'tel' => $request->tel,
+            'role' => "user",
         ]);
 
         event(new Registered($user));
