@@ -3,23 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Request2;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Illuminate\View\View;   
+use App\Models\Tour;
 
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Display the user's profile form along with booked tours.
      */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+        $bookedTours = Request2::where('user_id', $user->id)
+            ->with('tour')
+            ->get();
+
+        // Получаем все доступные туры
+        $availableTours = Tour::all();
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
+            'bookedTours' => $bookedTours,
+            'availableTours' => $availableTours,
         ]);
     }
+
 
     /**
      * Update the user's profile information.

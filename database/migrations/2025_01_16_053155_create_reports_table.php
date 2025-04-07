@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('number');
             $table->integer('cost');
-            $table->foreignId('tours_id')->nullable()->constrained('tours')->onDelete('cascade');
+            $table->foreignId('tour_id')->nullable()->constrained('tours')->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
